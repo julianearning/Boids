@@ -5,6 +5,7 @@
 #include <algorithm>
 
 Swarm::Swarm(int max_x, int max_y, int n_birds, double cohesion, double seperation, double alignment, double radius, double radius_seperation) {
+    std::cout<<radius<<"\n";
     this->n_birds=n_birds;
     this->cohesion_param=cohesion;
     this->seperation_param=seperation;
@@ -40,10 +41,12 @@ void Swarm::update() {
     Vector<double> alignment;
     Vector<double> seperation;
     Vector<double> border_push;
-    Vector<double> random_push;
+    Vector<double> draft;
     double curr_x=0.0;
     double curr_y=0.0;
     for(int i = 0; i<n_birds; i++) {
+        curr_x=0.0;
+        curr_y=0.0;
         get_neighbours(i,&neighbours);
         get_cohesion(i,neighbours,&cohesion);
         curr_x+=cohesion.get_x();
@@ -54,9 +57,9 @@ void Swarm::update() {
         get_seperation(i,neighbours,&seperation);
         curr_x+=seperation.get_x();
         curr_y+=seperation.get_y();
-        //get_random_variation(i, neighbours, &random_push);
-        //curr_x+=random_push.get_x();
-        //curr_y+=random_push.get_y();
+        //get_draft(i, neighbours, &draft);
+        //curr_x+=draft.get_x();
+        //curr_y+=draft.get_y();
 
         get_border_push(i, neighbours, &border_push);
         if((border_push.get_x()!=0.0)||(border_push.get_y()!=0.0)) { 
@@ -78,30 +81,16 @@ void Swarm::get_neighbours(int p, std::vector<int> * neighbours) {
     int curr_y=y;
     double diff_x=0.0;
     double diff_y=0.0;
-    for(int i = 0; i<p; i++) {
-        curr_x=birds.at(i).position.get_x();
-        curr_y=birds.at(i).position.get_y();
-        diff_x=(double)(curr_x-x);
-        diff_y=(double)(curr_y-y);
-        distances.push_back(std::sqrt((diff_x*diff_x)+(diff_y*diff_y)));
-    }
-    for(int i=p+1; i<n_birds; i++) {
-        curr_x=birds.at(i).position.get_x();
-        curr_y=birds.at(i).position.get_y();
-        diff_x=(double)(curr_x-x);
-        diff_y=(double)(curr_y-y);
-        distances.push_back(std::sqrt(diff_x*diff_x+diff_y*diff_y));
-    }
-
-    for(int i = 0; i<p; i++) {
-        if(distances.at(i)<=radius) {
-            neighbours->push_back(i);
-        } 
-    }
-    for(int i=p; i<n_birds-1; i++) {
-        if(distances.at(i)<=radius) {
-            neighbours->push_back(i+1);
-        } 
+    for(int i = 0; i<birds.size(); i++) {
+        if(p!=i) {
+            curr_x=birds.at(i).position.get_x();
+            curr_y=birds.at(i).position.get_y();
+            diff_x=(double)(curr_x-x);
+            diff_y=(double)(curr_y-y);
+            if(std::sqrt((diff_x*diff_x)+(diff_y*diff_y))<=radius) {
+                neighbours->push_back(i);
+            }
+        }
     }
 }
 
@@ -178,27 +167,32 @@ void Swarm::get_seperation(int p, std::vector<int> & neighbours, Vector<double> 
 }
 
 
-void Swarm::get_random_variation(int p, std::vector<int> & neighbours, Vector<double> * random_vector) {
-    int random_push_x=rand()%max_x;
-    int random_push_y=rand()%max_y;
-    random_vector->set_x(birds.at(p).position.get_x()-random_push_x);
-    random_vector->set_y(birds.at(p).position.get_x()-random_push_y);
+void Swarm::get_draft(int p, std::vector<int> & neighbours, Vector<double> * random_vector) {
+    //int random_draft_strength=(double)(rand()%100)/10;
+    int random_draft_strength=500.0;
+    double diff_x=(max_x/2)-birds.at(p).position.get_x();
+    double diff_y=(max_y/2)-birds.at(p).position.get_y();
+    double inv_magnitude=1/(std::sqrt(diff_x*diff_x+diff_y*diff_y));
+    if(inv_magnitude==inv_magnitude) {
+        random_vector->set_x(diff_x*inv_magnitude);
+        random_vector->set_y(diff_y*inv_magnitude);
+    }
 }
 
 void Swarm::get_border_push(int p, std::vector<int> & neighbours, Vector<double> * border_push_vector) {
     double x=0.0;
     double y=0.0;
-    double value=200.0;
-    if(birds.at(p).position.get_x()<-10) {
+    double value=10.0;
+    if(birds.at(p).position.get_x()<-1) {
         x+=value;
     }
-    if((birds.at(p).position.get_y()<-10)) {
+    if((birds.at(p).position.get_y()<-1)) {
         y+=value;
     }
-    if(birds.at(p).position.get_x()>max_x+10) {
+    if(birds.at(p).position.get_x()>max_x+1) {
         x-=value;
     }
-    if(birds.at(p).position.get_y()>max_y+10) {
+    if(birds.at(p).position.get_y()>max_y+1) {
         y-=value;
     }
     border_push_vector->set_x(x);

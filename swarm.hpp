@@ -24,7 +24,7 @@ public:
     void get_cohesion(int p, std::vector<int> & neighbours, Vector<double> * cohesion_vector);
     void get_alignment(int p, std::vector<int> & neighbours, Vector<double> * alignment_vector);
     void get_seperation(int p, std::vector<int> & neighbours, Vector<double> * seperation_vector);
-    void get_random_variation(int p, std::vector<int> & neighbours, Vector<double> * random_vector); // when no other birds are near, bird will fly exactly straight (not very realisic!)
+    void get_draft(int p, std::vector<int> & neighbours, Vector<double> * draft_vector); // when no other birds are near, bird will fly exactly straight (not very realisic!)
     void get_border_push(int p, std::vector<int> & neighbours, Vector<double> * border_push_vector); // pushes birds into frame
 };
 

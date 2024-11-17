@@ -9,9 +9,9 @@
 
 
 unsigned int n_birds = 2000; 
-double cohesion = 1;
+double cohesion = 0.1;
 double seperation = 60;
-double alignment = 4;
+double alignment = 0.1;
 double radius=500;
 double radius_seperation=300;
 unsigned int max_x=1600;
@@ -57,11 +57,11 @@ int main(int argc, char * argv []) {
     desc.add_options()
         ("help", "produce help message")
         ("n", boost::program_options::value<unsigned int>(&n_birds)->default_value(1000), "Number of birds/fishes.")
-        ("cohesion", boost::program_options::value<double>(&cohesion)->default_value(1000.0), "Weight of cohesion vector.")
-        ("seperation", boost::program_options::value<double>(&seperation)->default_value(1.0), "Weight of seperation vector.")
-        ("alignment", boost::program_options::value<double>(&alignment)->default_value(1.0), "Weight of alignment vector.")
-        ("radius", boost::program_options::value<double>(&radius)->default_value(500.0), "Radius for fishes that influence cohesion and alignment.")
-        ("radius_seperation", boost::program_options::value<double>(&radius_seperation)->default_value(300), "Radius for fishes that influence seperation.")
+        ("cohesion", boost::program_options::value<double>(&cohesion)->default_value(1), "Weight of cohesion vector.")
+        ("seperation", boost::program_options::value<double>(&seperation)->default_value(1), "Weight of seperation vector.")
+        ("alignment", boost::program_options::value<double>(&alignment)->default_value(1), "Weight of alignment vector.")
+        ("radius", boost::program_options::value<double>(&radius)->default_value(400.0), "Radius for fishes that influence cohesion and alignment.")
+        ("radius_seperation", boost::program_options::value<double>(&radius_seperation)->default_value(100.0), "Radius for fishes that influence seperation.")
         ("max_x", boost::program_options::value<unsigned int>(&max_x)->default_value(1600), "Size x-axis of graphics window.")
         ("max_y", boost::program_options::value<unsigned int>(&max_y)->default_value(900), "Size y-axis of graphics window.")
         ("width_tail", boost::program_options::value<double>(&width_tail)->default_value(10.0), "Width of tail of bird graphics." )

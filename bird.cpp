@@ -52,6 +52,11 @@ void Bird::update(double x, double y) {
         this->velocity.set_x((this->velocity.get_x()/speed)*max_speed);
         this->velocity.set_y((this->velocity.get_y()/speed)*max_speed);
     }
+    
+    if((velocity.get_x()!=velocity.get_x()) || (velocity.get_y()!=velocity.get_y())) {
+        this->velocity.set_x(1.0);
+        this->velocity.set_y(1.0);
+    }
 
     this->position.set_x(this->position.get_x()+this->velocity.get_x());
     this->position.set_y(this->position.get_y()+this->velocity.get_y());
