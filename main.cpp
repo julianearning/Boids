@@ -86,7 +86,7 @@ int main(int argc, char * argv []) {
     Swarm swarm(max_x, max_y, n_birds, cohesion, seperation, alignment,radius, radius_seperation);
     std::cout<<"[Done]\n";
     std::cout<<"Creating Window...";
-    sf::RenderWindow window(sf::VideoMode(max_x, max_y), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(max_x, max_y), "Boids");
     std::cout<<"[Done]\n";
 
     std::cout<<"Starting Animation..."<<std::endl;
