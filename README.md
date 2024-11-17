@@ -1,6 +1,5 @@
 # Boids  
 Implementation of Boids in C++ using SFML for graphics and Boost for command line parsing. 
-![alt text](boids.png "Screenshot of Program")
 
 Boids is a simple simulation of flock/swarm-like behavior. Every fish wants to do three things:
   
@@ -10,7 +9,9 @@ Boids is a simple simulation of flock/swarm-like behavior. Every fish wants to d
 
 Also necessary: 
 
-- Push fishes away from the border of the screen, otherwise they disappear  
+- Push fishes away from the border of the screen, otherwise they disappear   
+  
+This is a problem, because it kind of forces the fishes to congregate around the borders. 
    
 Together with many other fishes this causes natural-looking patterns. I added some constraints to make the movements look more natural:  
   
@@ -18,11 +19,11 @@ Together with many other fishes this causes natural-looking patterns. I added so
 - max turn angle  
   
 I still have to test a lot and want to parallelize it, so that more fishes can be simulated without dropping framerate (right now, about 1000 fishes can be done at 60fps). 
-The radius search can be optimized too. Right now, I just iterate over all other fishes (O(n^2)) because I'm unsure which data structure would be most advantageous for constantly changing data. Also, the fishes like to circle, which I'm pretty sure is due to some kind of bug? My JavaScript implementation didn't do that. 
+The radius search can be optimized too. Right now, I just iterate over all other fishes (O(n^2)) because I'm unsure which data structure would be most advantageous for constantly changing data.  
+  
 
 
-
-## Installation  
+## Usage  
    
 Install SFML and Boost if necessary, then do:
 
@@ -55,3 +56,25 @@ Allowed options:
   --length_bird arg (=20)        Length of bird graphics.
   --fps arg (=60)                Desired FPS.
 ```
+
+
+## Images  
+   
+Kind of turned out more like a particle simulation. This is typical behavior, which is kind of black hole-y. In motion it looks kind of 3D. 
+Can be achieved with: 
+```
+./boids --radius 500 --radius_seperation 10
+```
+
+![alt text](donut.png "Donut")
+
+When you really reduce the radius to 100, then these small black holes happen and kind of end up as one big black hole, as the different circles run into each other. 
+```
+./boids --radius 100 --radius_seperation 10 --cohesion 10
+```
+
+![alt text](bayblades.png "Bayblades")
+
+This is a boring example:
+
+![alt text](boids.png "Screenshot of Program")
