@@ -112,6 +112,7 @@ void Swarm::get_cohesion(int p, std::vector<int> & neighbours, Vector<double> * 
     }
     double mean_x=0.0;
     double mean_y=0.0;
+    double inv_magnitude=1.0;
     for(int i = 0; i<neighbours.size(); i++) {
         mean_x+=birds.at(neighbours.at(i)).position.get_x();
         mean_y+=birds.at(neighbours.at(i)).position.get_y();
@@ -119,23 +120,30 @@ void Swarm::get_cohesion(int p, std::vector<int> & neighbours, Vector<double> * 
     if(neighbours.size()>0) { 
         mean_x/=neighbours.size();
         mean_y/=neighbours.size();
-        cohesion_vector->set_x((mean_x-(double)birds.at(p).position.get_x())*cohesion_param);
-        cohesion_vector->set_y((mean_y-(double)birds.at(p).position.get_y())*cohesion_param);
+        mean_x=mean_x-(double)birds.at(p).position.get_x();
+        mean_y=mean_y-(double)birds.at(p).position.get_y();
+        inv_magnitude=1/std::sqrt(mean_x*mean_x+mean_y*mean_y);
+        cohesion_vector->set_x(mean_x*inv_magnitude*cohesion_param);
+        cohesion_vector->set_y(mean_y*inv_magnitude*cohesion_param);
     }
 }
 
 void Swarm::get_alignment(int p, std::vector<int> & neighbours, Vector<double> * alignment_vector) {
     double mean_x=0.0;
     double mean_y=0.0;
+    double inv_magnitude=1.0;
     for(int i = 0; i<neighbours.size(); i++) {
         mean_x+=birds.at(neighbours.at(i)).velocity.get_x();
         mean_y+=birds.at(neighbours.at(i)).velocity.get_y();
     }
-    if(neighbours.size()>0) { 
+    if(neighbours.size()>0) {
         mean_x/=neighbours.size();
         mean_y/=neighbours.size();
-        alignment_vector->set_x((birds.at(p).velocity.get_x()-mean_x)*alignment_param);
-        alignment_vector->set_y((birds.at(p).velocity.get_y()-mean_x)*alignment_param);
+        mean_x=birds.at(p).velocity.get_x()-mean_x;
+        mean_y=birds.at(p).velocity.get_y()-mean_y;
+        inv_magnitude=1/std::sqrt(mean_x*mean_x+mean_y*mean_y);
+        alignment_vector->set_x(mean_x*inv_magnitude*alignment_param);
+        alignment_vector->set_y(mean_y*inv_magnitude*alignment_param);
     }
 }
 

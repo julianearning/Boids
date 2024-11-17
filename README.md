@@ -1,2 +1,2 @@
-# Boids
-Implementation of Boids
+# Boids  
+Implementation of Boids 

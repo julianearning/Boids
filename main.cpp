@@ -57,9 +57,9 @@ int main(int argc, char * argv []) {
     desc.add_options()
         ("help", "produce help message")
         ("n", boost::program_options::value<unsigned int>(&n_birds)->default_value(1000), "Number of birds/fishes.")
-        ("cohesion", boost::program_options::value<double>(&cohesion)->default_value(1.0), "Weight of cohesion vector.")
-        ("seperation", boost::program_options::value<double>(&seperation)->default_value(60.0), "Weight of seperation vector.")
-        ("alignment", boost::program_options::value<double>(&alignment)->default_value(4.0), "Weight of alignment vector.")
+        ("cohesion", boost::program_options::value<double>(&cohesion)->default_value(1000.0), "Weight of cohesion vector.")
+        ("seperation", boost::program_options::value<double>(&seperation)->default_value(1.0), "Weight of seperation vector.")
+        ("alignment", boost::program_options::value<double>(&alignment)->default_value(1.0), "Weight of alignment vector.")
         ("radius", boost::program_options::value<double>(&radius)->default_value(500.0), "Radius for fishes that influence cohesion and alignment.")
         ("radius_seperation", boost::program_options::value<double>(&radius_seperation)->default_value(300), "Radius for fishes that influence seperation.")
         ("max_x", boost::program_options::value<unsigned int>(&max_x)->default_value(1600), "Size x-axis of graphics window.")
@@ -111,9 +111,9 @@ int main(int argc, char * argv []) {
 
         if(ms_int.count()<=16.6) {
             std::this_thread::sleep_for(std::chrono::milliseconds((int)(ms_per_frame-ms_int.count())));
-            std::cout<<"\n[FPS at 60]";
+            //std::cout<<"\n[FPS at 60]";
         } else {
-            std::cout<<"\n[FPS at "<<1000/((double)(ms_int.count()))<<"]";
+            std::cout<<"\n[FPS dropping to "<<1000/((double)(ms_int.count()))<<"]";
         }
     }
 
